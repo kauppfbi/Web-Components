@@ -1,0 +1,331 @@
+<!doctype html>
+<!-- 4682B4 - Steel Blue 
+	A52A2A - Brown
+	778899 - Grau
+	32CD32 - Lime Green
+-->
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>What are Web Components?</title>
+
+	<meta name="author" content="Fabian Kaupp">
+
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+	<link rel="icon" type="image/x-icon" href="http://webcomponents.org/img/favicon.ico">
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+	<!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+	<link rel="import" href="../bower_components/google-map/google-map.html">
+</head>
+
+<body>
+
+	<div class="reveal">
+
+		<!-- Any section element inside of this container is displayed as a slide -->
+		<div class="slides">
+			<section data-transition="slide" data-background="#4682B4" data-background-transition="zoom">
+				<h1>Web Components</h1>
+				<h3></h3>
+				<p>
+					by Fabian Kaupp
+				</p>
+			</section>
+
+			<section style="text-align: left;" data-transition="slide" data-background="#A52A2A" data-background-transition="zoom">
+				<h2>Agenda:</h2>
+				<p>
+					<ul>
+						<li>Was sind Web Components?</li>
+						<li>Warum gibt es Web Components? Wofür sind sie gut?</li>
+						<li>Wie funktionieren sie?</li>
+						<li>Beispiel</li>
+					</ul>
+				</p>
+				</section>
+
+				<section>
+					<section>
+						<h2>Was sind Web Components?</h2>
+						<img src="img/webcomponents.png">
+					</section>
+					<section>
+						<div id="image">
+							<img src="img/Mannheim.jpg" href="" alt="Mannheim" onmouseover="over(this)" onmouseout="out(this)" style="height: 540; width: 920; cursor: pointer">
+						</div>
+						<div><p>Code:</p>
+							<pre><code data-trim contenteditable style="word-wrap: break-word;">&lt;google-map latitude="50" longitude="9"&gt;&lt;/google-map&gt;</code></pre>
+						</div>	
+						<script>
+						function over(x) {
+							x.style.height = "432px";
+							x.style.width = "736px";
+
+							var parent = x.parentNode;
+							var para = document.createElement("p");
+							para.innerHTML = "Google-Map zu Mannheim";
+							para.setAttribute("id", "link");
+							parent.appendChild(para);
+
+							x.addEventListener("dblclick", function (){
+								var old = window.location.toString();
+								var newlocation = old.substr(0, (old.length - 22));
+								newlocation += "maps.html"
+								//alert(newlocation);
+								window.open(newlocation);
+							});
+						}
+
+						function out(x) {
+							var parent = x.parentNode;
+							var para = document.getElementById("link");
+							parent.removeChild(para);
+
+
+							x.style.height = "540px";
+							x.style.width = "920px";
+						}
+						</script>
+					</section>
+				</section>
+
+				<section data-transition="slide" data-background="#2E8B57" data-background-transition="zoom">
+					<section>
+						<h2>Welchen Nutzen / Welche Vorteile bringen Web Components?</h2>
+					</section>
+					<section>
+						<h3>Vorteile auf einen Blick:</h3>
+						<ul>
+							<li>Einheitlichkeit</li>
+							<li>Einfache Benutzbarkeit</li>
+							<li>Möglichkeit der Wiederverwendung</li>
+							<li>Kombinierbarkeit</li>
+							<li>Kapselung des inneren Aufbaus (HTML, CSS, JS)</li>
+						</ul>
+					</section>
+				</section>
+
+				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+					<section>
+						<h2>Funktionsweise der Web Components</h2>
+						<p>Bestandteile:</p>
+						<ul>
+							<li class="fragment highlight-gray">Custom Elements</li>
+							<li>Templates</li>
+							<li>Shadow DOM</li>
+							<li>HTML Imports</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Ein eigenes HTML-Tag erstellen:</h3>
+						<pre><code>&lt;document.registerElement("mein-tag");&gt;</code></pre>
+						<p>Weiterführende Deklaration durch:
+							<ul>
+								<li>Callback-Methoden</li>
+								<li>Prototypen</li>
+							</ul>
+						</p>
+					</section>
+					<section>
+						<h2>Funktionsweise der Web Components</h2>
+						<p>Bestandteile:</p>
+						<ul>
+							<li>Custom Elements</li>
+							<li class="fragment highlight-gray">Templates</li>
+							<li>Shadow DOM</li>
+							<li>HTML Imports</li>
+						</ul>
+					</section>
+					<section>
+						<img src="img/template.JPG">
+						<p id="html5rocks">HTML's new Template tag</p>
+						<script>
+						var p = document.getElementById('html5rocks');
+						p.style.cursor = "pointer";
+						p.addEventListener('click', function(){
+							var newLocation="http://www.html5rocks.com/en/tutorials/webcomponents/template/?redirect_from_locale=de";
+							window.open(newLocation);
+						});
+						</script>
+					</section>
+					<section>
+						<img src="img/example.JPG">
+						<button style="width: 150px; background-color: gray; float: right; font-size: 20px;" onclick="useIt()">Use me</button>
+						<div id="container"></div>
+						<script>
+						function useIt() {
+							var content = document.querySelector('template').content;
+    // Update something in the template DOM.
+    var span = content.querySelector('span');
+    span.textContent = parseInt(span.textContent) + 1;
+    document.querySelector('#container').appendChild(
+    	document.importNode(content, true));
+}
+</script>
+
+<template>
+	<div style="width: 200px; border: 1px solid black; font-size: 14px; float: left;">Template used: <span>0</span></div>
+	<script>alert('Thanks!')</script>
+</template>
+					</section>
+					<section>
+						<h2>Funktionsweise der Web Components</h2>
+						<p>Bestandteile:</p>
+						<ul>
+							<li>Custom Elements</li>
+							<li>Templates</li>
+							<li class="fragment highlight-gray">Shadow DOM</li>
+							<li>HTML Imports</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Einfügen einer Shadow-Root:</h3>
+						<pre><code>var shadowRoot = myElement.createShadowRoot();
+shadowRoot.appendChild(standardHTMLTag);</code></pre>
+					</section>
+					<section>
+						<h2>Funktionsweise der Web Components</h2>
+						<p>Bestandteile:</p>
+						<ul>
+							<li>Custom Elements</li>
+							<li>Templates</li>
+							<li>Shadow DOM</li>
+							<li class="fragment highlight-gray">HTML Imports</li>
+						</ul>
+					</section>
+					<section>
+						<h3>HTML-Dokumente einfügen:</h3>
+						<pre><code>&lt;link rel="import" href="/imports/document.html"&gt;</code></pre>
+					</section>
+				</section>
+
+				<section data-transition="slide" data-background="#32CD32" data-background-transition="zoom">
+					<div onClick="newWindow()" style="cursor: pointer;">
+						<img src="img/greet.png" href="../Presentation/hellogreeter.html">
+						<p>Beispiel für Custom Element und Shadow DOM</p>
+					</div>
+					<script>
+						function newWindow(){
+							var old = window.location.toString();
+							var newlocation = old.substr(0, (old.length - 20));
+							newlocation += "hellogreeter.html"
+								//alert(newlocation);
+							window.open(newlocation);
+						}
+					</script>
+				</section>
+				<section style="text-align: left;" data-transition="slide" data-background="#4682B4" data-background-transition="zoom">
+					<section>
+						<h3>Weiterführende Quellen:</h3>
+						<ul>
+							<ul>HTML5Rocks:
+								<li id="customelements">Custom Elements</li>
+								<li id="template">Templates</li>
+								<li id="shadowdom">Shadow DOM</li>
+								<li id="imports">Imports</li>
+							</ul>
+							<ul>Deutschsprachige Einführungen:
+								<li id="golem">Golem</li>
+								<li id="kroener">Peter Kroener</li>
+								<li id="selfhtml">selfhtml.blog/</li>
+							</ul>
+						</ul>
+
+						<script>
+						var customelements = document.getElementById('customelements');
+						var template = document.getElementById('template');
+						var shadowdom = document.getElementById('shadowdom');
+						var imports = document.getElementById('imports');
+						var golem = document.getElementById('golem');
+						var kroener = document.getElementById('kroener');
+						var selfhtml = document.getElementById('selfhtml');
+						
+						customelements.addEventListener('click', function(){
+							var newLocation="http://www.html5rocks.com/en/tutorials/webcomponents/customelements/";
+							window.open(newLocation);
+						});
+
+						template.addEventListener('click', function(){
+							var newLocation="http://www.html5rocks.com/en/tutorials/webcomponents/template/";
+							window.open(newLocation);
+						});
+
+						shadowdom.addEventListener('click', function(){
+							var newLocation="http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/";
+							window.open(newLocation);
+						});
+
+						imports.addEventListener('click', function(){
+							var newLocation="http://www.html5rocks.com/en/tutorials/webcomponents/imports/";
+							window.open(newLocation);
+						});
+
+						golem.addEventListener('click', function(){
+							var newLocation="http://www.golem.de/news/web-components-html-elemente-selber-bauen-1305-99318.html";
+							window.open(newLocation);
+						});
+
+						kroener.addEventListener('click', function(){
+							var newLocation="http://www.peterkroener.de/web-components-erklaert-teil-1-was-sind-web-components/";
+							window.open(newLocation);
+						});
+
+						selfhtml.addEventListener('click', function(){
+							var newLocation="http://blog.selfhtml.org/2014/12/09/web-components-eine-einfuehrung";
+							window.open(newLocation);
+						});
+						</script>
+					</section>
+
+					<section>
+						<h1>Noch Fragen?</h1>
+					</section>
+
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+				{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+				{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+				{ src: 'plugin/zoom-js/zoom.js', async: true },
+				{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+			</script>
+
+		</body>
+		</html>

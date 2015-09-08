@@ -1,0 +1,12 @@
+{
+  "name": "Web Components",
+  "version": "0.0.0",
+  "authors": [
+    "kauppfbi"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "polymer": "Polymer/polymer#1.0.0",
+    "google-map": "https://github.com/GoogleWebComponents/google-map.git#~1.1.0"
+  }
+}
